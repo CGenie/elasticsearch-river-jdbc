@@ -780,10 +780,12 @@ public class SimpleRiverSource implements RiverSource {
                     return result.wasNull() ? null : o;
                 } catch (Exception e) {
                     // PSQLException: Bad value for type int : t
-                    if (e.getMessage().startsWith("Bad value for type int")) {
-                        return "t".equals(result.getString(i));
-                    }
-                    throw new IOException(e);
+                    //if (e.getMessage().startsWith("Bad value for type int")) {
+                    //    return "t".equals(result.getString(i));
+                    //}
+                    //throw new IOException(e);
+
+                    // Skip to the BOOLEAN case
                 }
             }
             /**
