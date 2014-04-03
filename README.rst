@@ -1,52 +1,73 @@
-.. image:: ../../../elasticsearch-river-jdbc/raw/master/src/site/origami.png
+.. image:: ../../../elasticsearch-river-jdbc/raw/master/src/site/resources/database-128.png
+
+Image by `icons8 <http://www.iconsdb.com/icons8/?icon=database>`_ Creative Commons Attribution-NoDerivs 3.0 Unported.
 
 Elasticsearch JDBC river
 ========================
 
-The Java Database Connection (JDBC) `river <http://www.elasticsearch.org/guide/reference/river/>`_  allows to fetch data from JDBC sources for indexing into `Elasticsearch <http://www.elasticsearch.org>`_. 
+The Java Database Connection (JDBC) `river <http://www.elasticsearch.org/guide/reference/river/>`_  allows to fetch data from JDBC sources for indexing into `Elasticsearch <http://www.elasticsearch.org>`_.
 
 It is implemented as an `Elasticsearch plugin <http://www.elasticsearch.org/guide/reference/modules/plugins.html>`_.
 
-The relational data is internally transformed into structured JSON objects for the schema-less indexing model in Elasticsearch. 
+The relational data is internally transformed into structured JSON objects for the schema-less indexing model in Elasticsearch.
 
-Creating a JDBC river is easy::
+Creating a JDBC river is easy. Install the plugin. Download a JDBC driver jar from your vendor's site (here MySQL) and put the jar into the folder of the plugin `$ES_HOME/plugins/river-jdbc`.
+Then issue this simple command::
 
     curl -XPUT 'localhost:9200/_river/my_jdbc_river/_meta' -d '{
         "type" : "jdbc",
         "jdbc" : {
-            "driver" : "com.mysql.jdbc.Driver",
             "url" : "jdbc:mysql://localhost:3306/test",
             "user" : "",
             "password" : "",
-            "sql" : "select * from orders"
+            "sql" : "select * from orders",
+            "index" : "my_jdbc_index",
+            "type" : "my_jdbc_type"
         }
     }'
 
 Installation
 ------------
 
-Prerequisites::
+.. image:: https://travis-ci.org/jprante/elasticsearch-river-jdbc.png
 
-  Elasticsearch 0.20+ / 0.90.0.Beta1+
-  a JDBC driver jar of your database
+Prerequisites
 
-=============  =========  =================  ============================================================
-ES version     Plugin     Release date       Command
--------------  ---------  -----------------  ------------------------------------------------------------
-0.20+          **2.0.3**  February 12, 2013  ./bin/plugin -url http://bit.ly/Yp2Drj -install river-jdbc
-0.90.0.Beta1+  **2.2.0**  February 28, 2013  ./bin/plugin -url http://bit.ly/145e9Ly -install river-jdbc
-=============  =========  =================  ============================================================
+  - a JDBC driver jar for your database (download from vendor site and put into JDBC river plugin folder)
 
-Bintray:
+=============  ===========  =================  =============================================================
+ES version     Plugin       Release date       Command
+-------------  -----------  -----------------  -------------------------------------------------------------
+0.90.3         0.90.3.1     Jan 31, 2014       ./bin/plugin -install river-jdbc -url http://bit.ly/1emqDH9
+0.90.10        0.90.10.2    Jan 31, 2014       ./bin/plugin -install river-jdbc -url http://bit.ly/1a8Mcve
+1.0.0          1.0.0.2      Mar 31, 2014       ./bin/plugin --install river-jdbc --url http://bit.ly/1gIk4jW
+=============  ===========  =================  =============================================================
 
-https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-river-jdbc
+Do not forget to restart the node after installing.
+
+Project docs
+------------
+
+The Maven project site is available at `Github <http://jprante.github.io/elasticsearch-river-jdbc>`_
+
+Binaries
+--------
+
+Binaries are available at `Bintray <https://bintray.com/pkg/show/general/jprante/elasticsearch-plugins/elasticsearch-river-jdbc>`_
+
 
 Documentation
 -------------
 
+Attention: working on the documentation for 1.0.0.x is still in progress!
+
+`Overview <../../../elasticsearch-river-jdbc/wiki/_pages>`_
+
 `Quickstart <../../../elasticsearch-river-jdbc/wiki/Quickstart>`_
 
 `JDBC river parameters <../../../elasticsearch-river-jdbc/wiki/JDBC-River-parameters>`_
+
+`How to declare a sequence of SQL statements per river run <../../../elasticsearch-river-jdbc/wiki/Using-a-series-of-SQL-statements>`_
 
 `Strategies <../../../elasticsearch-river-jdbc/wiki/Strategies>`_
 
@@ -60,13 +81,7 @@ Documentation
 
 `Bulk indexing <../../../elasticsearch-river-jdbc/wiki/Bulk-indexing>`_
 
-`Updates with versioning <../../../elasticsearch-river-jdbc/wiki/Updates-with-versioning>`_
-
-`Updates with database table <../../../elasticsearch-river-jdbc/wiki/Updates-with-database-table>`_
-
 `Setting up the river with PostgreSQL <../../../elasticsearch-river-jdbc/wiki/Step-by-step-recipe-for-setting-up-the-river-with-PostgreSQL>`_
-
-`Loading from CSV <../../../elasticsearch-river-jdbc/wiki/Loading-CSV>`_
 
 License
 =======
